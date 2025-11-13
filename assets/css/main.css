@@ -1,11 +1,3 @@
-/**
-* Template Name: MediTrust
-* Template URL: https://bootstrapmade.com/meditrust-bootstrap-hospital-website-template/
-* Updated: Jul 04 2025 with Bootstrap v5.3.7
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 @charset "UTF-8";
 
 /*--------------------------------------------------------------
@@ -389,21 +381,24 @@ h6 {
     z-index: 9997;
   }
 
-  .navmenu ul {
-    display: none;
-    list-style: none;
-    position: absolute;
-    inset: 60px 20px 20px 20px;
-    padding: 10px 0;
-    margin: 0;
-    border-radius: 6px;
-    background-color: var(--nav-mobile-background-color);
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    box-shadow: none;
-    overflow-y: auto;
-    transition: 0.3s;
-    z-index: 9998;
-  }
+.navmenu ul {
+  display: none; /* Hidden by default */
+  list-style: none;
+  position: absolute;
+  top: 60px; /* Instead of inset */
+  right: 15px; /* Keeps it aligned with the hamburger icon */
+  left: auto;
+  width: 200px; /* Optional: adjust menu width */
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 6px;
+  background-color: var(--nav-mobile-background-color, #fff);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 9998;
+  flex-direction: column;
+}
 
   .navmenu a,
   .navmenu a:focus {
@@ -5921,3 +5916,5 @@ section,
   padding-bottom: 60px;
   /* Add your styles here */
 }
+
+
