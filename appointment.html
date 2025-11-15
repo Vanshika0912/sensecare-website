@@ -104,54 +104,53 @@
           <!-- Appointment Form -->
           <div class="col-lg-6">
             <div class="appointment-form-wrapper" data-aos="fade-up" data-aos-delay="200">
-              <form action="forms/appointment.php" method="post" class="appointment-form php-email-form">
+
+              <form id="appointmentForm" class="appointment-form">
+
+                <!-- Hidden Web3Forms Access Key -->
+                <input type="hidden" name="access_key" value="5e5254c4-08ae-4528-b294-f2e01a1f9b9e">
+
                 <div class="row gy-3">
 
                   <div class="col-md-6">
-                    <input type="text" name="name" class="form-control" placeholder="Your Full Name" required="">
+                    <input type="text" name="name" class="form-control" placeholder="Your Full Name" required>
                   </div>
 
                   <div class="col-md-6">
-                    <input type="email" name="email" class="form-control" placeholder="Your Email" required="">
+                    <input type="email" name="email" class="form-control" placeholder="Your Email" required>
                   </div>
 
                   <div class="col-md-6">
-                    <input type="tel" name="phone" class="form-control" placeholder="Your Phone Number" required="">
+                    <input type="tel" name="phone" class="form-control" placeholder="Your Phone Number" required>
                   </div>
 
                   <div class="col-md-6">
-                    <select name="department" class="form-select" required="">
+                    <select name="department" class="form-select" required>
                       <option value="">Select Department</option>
-                      <option value="childcare">Child Care</option>
-                      <option value="neurology">Indian Neuro Therapy</option>
-                      <option value="other">Other</option>
+                      <option value="Child Care">Child Care</option>
+                      <option value="Indian Neuro Therapy">Indian Neuro Therapy</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
 
                   <div class="col-md-6">
-                    <input type="date" name="date" class="form-control" required="">
+                    <input type="date" name="date" class="form-control" required>
                   </div>
 
                   <div class="col-md-6">
-                    <select name="doctor" class="form-select" required="">
+                    <select name="doctor" class="form-select" required>
                       <option value="">Select Therapist</option>
-                      <option value="tr-rajwinder">Mr. Rajwinder Singh</option>
-                      <option value="tr-kamaldeep">Ms. Kamaldeep Kaur</option>
-                      <!-- <option value="dr-chen">Dr. Lisa Chen</option>
-                      <option value="dr-patel">Dr. Raj Patel</option>
-                      <option value="dr-williams">Dr. Emily Williams</option>
-                      <option value="dr-thompson">Dr. David Thompson</option> -->
+                      <option value="Mr. Rajwinder Singh">Mr. Rajwinder Singh</option>
+                      <option value="Ms. Kamaldeep Kaur">Ms. Kamaldeep Kaur</option>
                     </select>
                   </div>
 
                   <div class="col-12">
-                    <textarea class="form-control" name="message" rows="5" placeholder="Please describe your symptoms or reason for visit (optional)"></textarea>
+                    <textarea class="form-control" name="message" rows="5" placeholder="Describe symptoms or reason (optional)"></textarea>
                   </div>
 
                   <div class="col-12">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your appointment request has been sent successfully. We will contact you shortly!</div>
+                    <div id="appointmentResult"></div>
 
                     <button type="submit" class="btn btn-appointment w-100">
                       <i class="bi bi-calendar-plus me-2"></i>Book Appointment
@@ -160,8 +159,11 @@
 
                 </div>
               </form>
+
             </div>
-          </div><!-- End Appointment Form -->
+          </div>
+
+          <!-- End Appointment Form -->
 
         </div>
 
@@ -243,6 +245,48 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <script>
+    const appointmentForm = document.getElementById('appointmentForm');
+    const appointmentResult = document.getElementById('appointmentResult');
+
+    appointmentForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      appointmentResult.innerHTML = "Please wait...";
+
+      const formData = new FormData(appointmentForm);
+      const data = Object.fromEntries(formData);
+      const json = JSON.stringify(data);
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: json
+      })
+        .then(async (response) => {
+          let jsonResponse = await response.json();
+          if (response.status === 200) {
+            swal("Appointment Booked!", "We will contact you soon to confirm your appointment.", "success");
+          } else {
+            swal("Error!", jsonResponse.message, "warning");
+          }
+        })
+
+        .catch((error) => {
+          swal("Something went wrong!", "Please try again later.", "error");
+        })
+
+        .finally(() => {
+          appointmentForm.reset();
+          appointmentResult.innerHTML = "";
+        });
+    });
+  </script>
 
 </body>
 

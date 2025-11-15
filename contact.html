@@ -124,7 +124,7 @@
               <h3>Send Us a Message</h3>
               <p>Your path to natural harmony starts with a simple message.</p>
 
-              <form action="forms/contact.php" method="post" class="php-email-form">
+              <!-- <form action="forms/contact.php" method="post" class="php-email-form">
                 <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="nameInput" name="name" placeholder="Full Name" required="">
                   <label for="nameInput">Full Name</label>
@@ -154,7 +154,45 @@
                 <div class="d-grid">
                   <button type="submit" class="btn-submit">Send Message <i class="bi bi-send-fill ms-2"></i></button>
                 </div>
+              </form> -->
+              <form id="contactForm" class="php-email-form">
+
+                <!-- Required Access Key -->
+                <input type="hidden" name="access_key" value="5e5254c4-08ae-4528-b294-f2e01a1f9b9e">
+
+                <!-- Optional: Redirect after submit -->
+                <!-- <input type="hidden" name="redirect" value=""> -->
+
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="nameInput" name="name" placeholder="Full Name" required>
+                  <label for="nameInput">Full Name</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email Address" required>
+                  <label for="emailInput">Email Address</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="subjectInput" name="subject" placeholder="Subject" required>
+                  <label for="subjectInput">Subject</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" id="messageInput" name="message" rows="5" placeholder="Your Message"
+                    style="height: 150px" required></textarea>
+                  <label for="messageInput">Your Message</label>
+                </div>
+
+                <div class="my-3">
+                  <div id="result" class="sent-message" style="display:none;"></div>
+                </div>
+
+                <div class="d-grid">
+                  <button type="submit" class="btn-submit">Send Message <i class="bi bi-send-fill ms-2"></i></button>
+                </div>
               </form>
+
             </div>
           </div>
         </div>
@@ -185,6 +223,50 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+
+      result.style.display = "block";
+      result.innerHTML = "Please wait...";
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: json
+      })
+        .then(async (response) => {
+          let json = await response.json();
+          if (response.status === 200) {
+            swal("Success!", "Thank you for contacting us. We will reach out to you soon!", "success");
+          } else {
+            swal("Oops!", "Something went wrong. Please try again!", "warning");
+          }
+        })
+        .catch((error) => {
+          swal("Error!", "Something went wrong. Please try later.", "error");
+        })
+        .finally(() => {
+          form.reset();
+          setTimeout(() => {
+            result.style.display = "none";
+          }, 3000);
+        });
+    });
+  </script>
+
 
 </body>
 
