@@ -682,6 +682,37 @@ h6 {
 }
 
 /*--------------------------------------------------------------
+# WhatsApp Button
+--------------------------------------------------------------*/
+.whatsapp-btn {
+  position: fixed;
+  right: 15px;
+  bottom: 80px;
+  z-index: 99999;
+  background-color: #25d366;
+  width: 56px;
+  height: 56px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-btn i {
+  font-size: 28px;
+  color: #ffffff;
+  line-height: 0;
+}
+
+.whatsapp-btn:hover {
+  background-color: #128c7e;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+/*--------------------------------------------------------------
 # Disable aos animation delay on mobile devices
 --------------------------------------------------------------*/
 @media screen and (max-width: 768px) {
@@ -5916,5 +5947,3 @@ section,
   padding-bottom: 60px;
   /* Add your styles here */
 }
-
-

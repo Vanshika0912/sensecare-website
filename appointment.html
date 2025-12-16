@@ -271,6 +271,11 @@
         .then(async (response) => {
           let jsonResponse = await response.json();
           if (response.status === 200) {
+            // Send to WhatsApp
+            const whatsappMessage = `*New Appointment Request*%0A%0A*Name:* ${data.name}%0A*Email:* ${data.email}%0A*Phone:* ${data.phone}%0A*Department:* ${data.department}%0A*Date:* ${data.date}%0A*Therapist:* ${data.doctor}%0A*Message:* ${data.message || 'N/A'}`;
+            const whatsappUrl = `https://wa.me/919878579549?text=${whatsappMessage}`;
+            window.open(whatsappUrl, '_blank');
+
             swal("Appointment Booked!", "We will contact you soon to confirm your appointment.", "success");
           } else {
             swal("Error!", jsonResponse.message, "warning");

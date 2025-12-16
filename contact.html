@@ -158,7 +158,7 @@
               <form id="contactForm" class="php-email-form">
 
                 <!-- Required Access Key -->
-                <input type="hidden" name="access_key" value="5e5254c4-08ae-4528-b294-f2e01a1f9b9e">
+                <input type="hidden" name="access_key" value="f7cc7f6f-7744-4be7-9c96-bc5fadd88799">
 
                 <!-- Optional: Redirect after submit -->
                 <!-- <input type="hidden" name="redirect" value=""> -->
@@ -250,6 +250,11 @@
         .then(async (response) => {
           let json = await response.json();
           if (response.status === 200) {
+            // Send to WhatsApp
+            const whatsappMessage = `*New Contact Message*%0A%0A*Name:* ${object.name}%0A*Email:* ${object.email}%0A*Subject:* ${object.subject}%0A*Message:* ${object.message}`;
+            const whatsappUrl = `https://wa.me/919878579549?text=${whatsappMessage}`;
+            window.open(whatsappUrl, '_blank');
+
             swal("Success!", "Thank you for contacting us. We will reach out to you soon!", "success");
           } else {
             swal("Oops!", "Something went wrong. Please try again!", "warning");
